@@ -1,4 +1,4 @@
-FROM alpine as builder
+FROM arm32v6/alpine as builder
 
 RUN apk --no-cache add --virtual inspectrum-build-dependencies \
     git \
@@ -35,7 +35,7 @@ RUN cmake \
 RUN make
 RUN make install
 
-FROM 0x01be/xpra
+FROM 0x01be/xpra:arm32v6
 
 COPY --from=builder /opt/inspectrum/ /opt/inspectrum/
 COPY --from=builder /opt/liquid/ /opt/liquid/
