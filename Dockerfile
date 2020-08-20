@@ -53,3 +53,4 @@ ENV PATH $PATH:/opt/inspectrum/bin/
 VOLUME /workspace
 WORKDIR /workspace
 
+ENV COMMAND "inspectrum"
