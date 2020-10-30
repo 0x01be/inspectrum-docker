@@ -1,4 +1,4 @@
-FROM alpine as builder
+FROM alpine as build
 
 RUN apk --no-cache add --virtual inspectrum-build-dependencies \
     git \
@@ -37,9 +37,6 @@ RUN make install
 
 FROM 0x01be/xpra
 
-COPY --from=builder /opt/inspectrum/ /opt/inspectrum/
-COPY --from=builder /opt/liquid/ /opt/liquid/
-
 RUN apk --no-cache add --virtual inspectrum-edge-runtime-dependencies \
     --repository http://dl-cdn.alpinelinux.org/alpine/edge/community \
     qt5-qtbase \
@@ -48,9 +45,10 @@ RUN apk --no-cache add --virtual inspectrum-edge-runtime-dependencies \
 RUN apk --no-cache add --virtual inspectrum-runtime-dependencies \
     fftw
 
+COPY --from=build /opt/inspectrum/ /opt/inspectrum/
+COPY --from=build /opt/liquid/ /opt/liquid/
+
+USER ${USER}
 ENV PATH $PATH:/opt/inspectrum/bin/
+ENV COMMAND inspectrum
 
-VOLUME /workspace
-WORKDIR /workspace
-
-ENV COMMAND "inspectrum"
