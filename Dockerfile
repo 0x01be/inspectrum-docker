@@ -43,7 +43,8 @@ RUN apk --no-cache add --virtual inspectrum-edge-runtime-dependencies \
     qt5-qtbase-x11
 
 RUN apk --no-cache add --virtual inspectrum-runtime-dependencies \
-    fftw
+    fftw \
+    mesa-dri-swrast
 
 COPY --from=build /opt/inspectrum/ /opt/inspectrum/
 COPY --from=build /opt/liquid/ /opt/liquid/
